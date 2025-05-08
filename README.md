@@ -3,7 +3,10 @@ This is a pipeline for single-cell RNA sequencing (scRNA-seq) data quality contr
 
 ## Part I Introduction
 ### i. Workflow
-
+As illustrated in the figure,
+(i) yellow circles represent the steps where commands need to be entered;
+(ii) pink dashed rectangular boxes represent the output results after processing at each step.
+![image](https://github.com/user-attachments/assets/ccef0d00-c140-4422-ba21-ebdd44a7b063)
 ### ii.Conda Environment
 ```
 conda install hcc::cellranger
@@ -46,6 +49,8 @@ expr_mat <- GetAssayData(pbmc, slot = "counts")
 genes_use <- rowSums(expr_mat > 0) > 0.05 * ncol(pbmc)
 pic<-VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 ```
+![image](https://github.com/user-attachments/assets/fe68f2e3-bcde-42cd-89fd-0a4910966ce4)  
+
 • Number of counts: >1500  
 • Number of genes: >700  
 • Percent of mitochondrial transcripts: <15%  
