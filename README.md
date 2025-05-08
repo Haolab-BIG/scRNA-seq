@@ -47,7 +47,7 @@ Qualified scRNA-seq data should adhere to the following standards. Any data that
 
 ### ii.Remove low-quality cells and genes
 ```
-dir<-" "
+dir<-" " #the directory of data
 pbmc.data<-Read10X(data.dir=dir)
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
