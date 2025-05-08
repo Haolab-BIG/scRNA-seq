@@ -46,7 +46,7 @@ Median Genes per Cell: the median number of genes detected per cell-associated b
 #### • Sequencing part  
 ![image](https://github.com/user-attachments/assets/dcc69310-811e-45c5-af02-67f7def20bd0)  
 (i) Q30 Bases in Barcode: >80%  
-This metric indicates the percentage of bases in the barcode sequences that have a Phred quality score of 30 or higher. A Q30 score means there is a 1 in 1,000 chance of an incorrect base call (99.9% accuracy).
+This metric indicates the percentage of bases in the barcode sequences that have a Phred quality score of 30 or higher. A Q30 score means there is a 1 in 1,000 chance of an incorrect base call (99.9% accuracy).  
 (ii) Q30 Bases in RNA Read: >60%  
 This shows the percentage of bases in the RNA portion of the read that also have a Q30 score or higher. 
 #### • Mapping part  
@@ -57,8 +57,9 @@ This metric represents the percentage of reads that successfully align to the re
 This metric represents the percentage of reads that confidently map to exonic regions (the protein-coding parts of genes).  
 
 ### ii.Remove low-quality cells and genes
+You need to assign the path to the 'filter_feature_matrix' folder from the CellRanger alignment results to the variable 'dir'. This folder contains three files: a unique molecular identifier (UMI) count matrix, a list of features, and a list of cell barcodes. The values in this matrix represent the number of molecules for each feature (i.e., gene; rows) that are detected in each cell (columns). We use Read10X() to read the results and create a Seurat object. Then, we calculate the proportion of mitochondrial expression in each cell. A high mitochondrial expression proportion often indicates that the cell may be stressed, dying, or experiencing some form of damage. This is because under normal conditions, mitochondrial genes should not make up a large proportion of the total gene expression in a healthy cell. A high proportion of mitochondrial expression can suggest that the cell is undergoing apoptosis or other forms of cellular dysfunction.Next, we calculate the Number of cells in which a gene is present. We consider genes that are expressed in only a very small number of cells as noise, which will need to be filtered out later.  
 ```
-dir<-" " #the directory of data
+dir<-" " #the path of 'filter_feature_matrix'
 pbmc.data<-Read10X(data.dir=dir)
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
@@ -68,6 +69,7 @@ pic<-VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), nco
 ```
 ![image](https://github.com/user-attachments/assets/fe68f2e3-bcde-42cd-89fd-0a4910966ce4)  
 #### • The standards for high-quality cells and genes  
+Due to the differences in experimental principles between scRNA-seq and snRNA-seq, we need to apply different standards when performing data cleaning.  
 (i) Number of counts: >1500 (scRNA-seq) >1000 (snRNA-seq)  
 (ii) Number of genes: >700 (scRNA-seq) >500 (snRNA-seq)  
 (iii) Percent of mitochondrial transcripts: <15% (scRNA-seq) <10% (snRNA-seq)  
@@ -83,6 +85,7 @@ pbmc <- subset(pbmc, subset = nCount_RNA > 1500 &
 pbmc <- subset(pbmc, features = rownames(expr_mat)[genes_use])
 ```
 (v) Remove doublets  
+In single-cell sequencing, due to technical errors, high cell density, and other factors, it is possible for a droplet to contain two or more cells. Therefore, we need to perform filtering in this part of the process. Below is a table provided by 10X, which records the total number of cells and the corresponding Expected Doublet Rate.  
 Choose the appropriate Expected Doublet Rate to replace the number in nExp_poi.  
 | Total Cells | Expected Doublet Rate |
 |-------------|------------------------|
