@@ -57,12 +57,12 @@ pic<-VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), nco
 ```
 ![image](https://github.com/user-attachments/assets/fe68f2e3-bcde-42cd-89fd-0a4910966ce4)  
 #### • The standards for high-quality cells and genes  
-(i) Number of counts: >1500  
-(ii) Number of genes: >700  
-(iii) Percent of mitochondrial transcripts: <15%  
-Filtering criteria for some exception cell types  
-Cardiac muscle cells, Skeletal muscle cells, Aged cells: <50%  
-Neurons, Cancer cells: No filtering  
+(i) Number of counts: >1500 (scRNA-seq) >1000 (snRNA-seq)  
+(ii) Number of genes: >700 (scRNA-seq) >500 (snRNA-seq)  
+(iii) Percent of mitochondrial transcripts: <15% (scRNA-seq) <10% (snRNA-seq)  
+Filtering criteria for some exception cell types (scRNA-seq)  
+Cardiac muscle cells, Skeletal muscle cells, Aged cells: <50% (scRNA-seq)  
+Neurons, Cancer cells: No filtering (scRNA-seq)  
 (iv) Number of cells in which gene is present: >5%  
 
 ```
