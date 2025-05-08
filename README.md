@@ -29,16 +29,22 @@ cellranger count --id=Control1 --localcores=30 \
    --nosecondary \
    --chemistry SC5P-PE > Control1.log &
 ```
-#### QC from web_summary.html
-• the discrepancy between Estimated Number of Cells and the expected number of cells in the experiment: >50%  
-• Mean Reads per Cell: >20,000  
-• Median Genes per Cell: >800  
+#### Filter the data based on the QC report from CellRanger, web_summary.html
+Qualified scRNA-seq data should adhere to the following standards. Any data that does not meet these criteria should be excluded.  
+• Summary part  
 ![image](https://github.com/user-attachments/assets/99200b58-8963-4d65-b4b8-01646423e525)  
-• Q30 Bases in Barcode: >80%  
-• Q30 score of RNA Read: >60%  
+(i) Estimated Number of Cells: >3000  
+#the discrepancy between Estimated Number of Cells and the expected number of cells in the experiment: >50% & <200%  
+(ii) Mean Reads per Cell: >20,000  
+(iii) Median Genes per Cell: >800  
+• Sequencing part  
 ![image](https://github.com/user-attachments/assets/dcc69310-811e-45c5-af02-67f7def20bd0)  
-• Reads Mapped Confidently to Exonic Regions: >60%  
+(i) Q30 Bases in Barcode: >80%  
+(ii) Q30 score of RNA Read: >60%  
+• Mapping part  
 ![image](https://github.com/user-attachments/assets/9e280989-4a27-4c14-9be7-8f9e9db66c48)  
+(i) Reads Mapped Confidently to Exonic Regions: >60%  
+
 ### ii.Remove low-quality cells and genes
 ```
 dir<-" "
