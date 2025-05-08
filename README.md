@@ -3,10 +3,10 @@ This is a pipeline for single-cell RNA sequencing (scRNA-seq) data quality contr
 
 ## Part I Introduction
 ### i. Workflow
-As illustrated in the figure,
-(i) yellow circles represent the steps where commands need to be entered;
-(ii) pink dashed rectangular boxes represent the output results after processing at each step.
-![image](https://github.com/user-attachments/assets/ccef0d00-c140-4422-ba21-ebdd44a7b063)
+As illustrated in the figure,  
+(i) yellow circles represent the steps where commands need to be entered;  
+(ii) pink dashed rectangular boxes represent the output results after processing at each step.  
+![image](https://github.com/user-attachments/assets/ccef0d00-c140-4422-ba21-ebdd44a7b063)  
 ### ii.Conda Environment
 ```
 conda install hcc::cellranger
@@ -31,17 +31,17 @@ cellranger count --id=Control1 --localcores=30 \
 ```
 #### Filter the data based on the QC report from CellRanger, web_summary.html
 Qualified scRNA-seq data should adhere to the following standards. Any data that does not meet these criteria should be excluded.  
-• Summary part  
+#### • Summary part  
 ![image](https://github.com/user-attachments/assets/99200b58-8963-4d65-b4b8-01646423e525)  
 (i) Estimated Number of Cells: >3000  
 #the discrepancy between Estimated Number of Cells and the expected number of cells in the experiment: >50% & <200%  
 (ii) Mean Reads per Cell: >20,000  
 (iii) Median Genes per Cell: >800  
-• Sequencing part  
+#### • Sequencing part  
 ![image](https://github.com/user-attachments/assets/dcc69310-811e-45c5-af02-67f7def20bd0)  
 (i) Q30 Bases in Barcode: >80%  
-(ii) Q30 score of RNA Read: >60%  
-• Mapping part  
+(ii) Q30 Bases in RNA Read: >60%  
+#### • Mapping part  
 ![image](https://github.com/user-attachments/assets/9e280989-4a27-4c14-9be7-8f9e9db66c48)  
 (i) Reads Mapped Confidently to Exonic Regions: >60%  
 
@@ -56,15 +56,14 @@ genes_use <- rowSums(expr_mat > 0) > 0.05 * ncol(pbmc)
 pic<-VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 ```
 ![image](https://github.com/user-attachments/assets/fe68f2e3-bcde-42cd-89fd-0a4910966ce4)  
-
-• Number of counts: >1500  
-• Number of genes: >700  
-• Percent of mitochondrial transcripts: <15%  
+#### • The standards for high-quality cells and genes  
+(i) Number of counts: >1500  
+(ii) Number of genes: >700  
+(iii) Percent of mitochondrial transcripts: <15%  
 Filtering criteria for some exception cell types  
 Cardiac muscle cells, Skeletal muscle cells, Aged cells: <50%  
 Neurons, Cancer cells: No filtering  
-• Percent of ribosomal transcripts: No filtering  
-• Number of cells in which gene is present: >5%  
+(iv) Number of cells in which gene is present: >5%  
 
 ```
 pbmc <- subset(pbmc, subset = nCount_RNA > 1500 &
@@ -72,7 +71,8 @@ pbmc <- subset(pbmc, subset = nCount_RNA > 1500 &
                  percent.mt < 15)
 pbmc <- subset(pbmc, features = rownames(expr_mat)[genes_use])
 ```
-• Remove doublets
+(v) Remove doublets  
+Choose the appropriate Expected Doublet Rate to replace the number in nExp_poi.  
 | Total Cells | Expected Doublet Rate |
 |-------------|------------------------|
 | ~500        | 0.004 (0.4%)           |
