@@ -60,9 +60,9 @@ pic<-VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), nco
 (i) Number of counts: >1500 (scRNA-seq) >1000 (snRNA-seq)  
 (ii) Number of genes: >700 (scRNA-seq) >500 (snRNA-seq)  
 (iii) Percent of mitochondrial transcripts: <15% (scRNA-seq) <10% (snRNA-seq)  
-Filtering criteria for some exception cell types (scRNA-seq)  
-Cardiac muscle cells, Skeletal muscle cells, Aged cells: <50% (scRNA-seq)  
-Neurons, Cancer cells: No filtering (scRNA-seq)  
+Filtering criteria for some exception cell types (scRNA-seq):  
+Cardiac muscle cells, Skeletal muscle cells, Aged cells: <50%  
+Neurons, Cancer cells: No filtering  
 (iv) Number of cells in which gene is present: >5%  
 
 ```
